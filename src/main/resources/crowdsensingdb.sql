@@ -132,3 +132,16 @@ CREATE TABLE IF NOT EXISTS `logs` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=78 ;
 
 -- ---------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `routine_responses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT NULL,
+  `day` varchar(15) DEFAULT NULL,
+  `beginTime` varchar(10) DEFAULT NULL,
+  `endTime` varchar(10) DEFAULT NULL,
+  `location` varchar(45) DEFAULT NULL,
+  `activity` varchar(45) DEFAULT NULL,
+  `musicPlayerApp` varchar(45) DEFAULT NULL,
+  `ringerManagerApp` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=latin1;

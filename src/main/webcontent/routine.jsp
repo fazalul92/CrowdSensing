@@ -18,7 +18,7 @@
 			int counter = 1;
 			//int dayCounter = 1;
 			int dayCounter = (Integer) session.getAttribute("routineDay");
-			String[] days = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Saturday"};
+			String[] days = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
 		%>
 		
         <!-- page content -->
@@ -42,7 +42,8 @@
                   </div>
                   <div class="x_content">
 									<p>
-									Please provide the details about your routine, and the corresponding requirements for the two applications
+									Please provide the details about your routine, and the corresponding requirements for the two applications. if you fill out the routine for one day, you may choose to 
+									copy the routine towards another day and modify it.
 									</p>
 
 
@@ -58,7 +59,7 @@
                     <% if(dayCounter>0) { %>
                     <div class="col-md-4 col-sm-4 col-xs-4">
                     <form class="form-horizontal form-label-left" method="POST" id="dayReplace" action="routine.jsp">
-                    Same as <br/>
+                    Copy routine from: <br/>
                     <table style="width:100%;">
                     	<tr>
                     		<td>
