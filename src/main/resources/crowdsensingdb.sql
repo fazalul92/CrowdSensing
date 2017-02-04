@@ -79,6 +79,11 @@ CREATE TABLE IF NOT EXISTS `postsurvey_questions` (
 
 -- --------------------------------------------------------
 
+INSERT INTO `postsurvey_questions` VALUES 
+(1,'How long did the main tasks (excluding pre and post surveys) take? Please count only the actual time you spent on the task, not the intermittent time you might have spent on other tasks.','text','duration in hours:minutes, e.g., 00:30 for thirty minutes',1),
+(2,'How do you rate the difficulty of main tasks?','multiple_choice','Very easy|Easy|Medium|High|Very high',1),
+(3,'Please provide any additional comments you have below','text','Optional comments',0);
+
 --
 -- Table structure for table `postsurvey_responses`
 --
@@ -106,12 +111,12 @@ CREATE TABLE IF NOT EXISTS `statuses` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-INSERT INTO `statuses` (`id`, `seq_no`, `title`, `filename`, `next_seq`) VALUES
-(1, 1, 'Presurvey', 'presurvey.jsp', 2),
-(2, 2, 'Main Instructions', 'debrief.jsp', 3),
-(3, 3, 'Add Routine', 'routine.jsp', 4),
-(4, 4, 'Post-Survey', 'postsurvey.jsp', 5),
-(5, 5, 'Completion', 'completed.jsp', 5);
+INSERT INTO `statuses` VALUES 
+(1,1,'Presurvey','presurvey.jsp',2),
+(2,2,'Main Instructions','debrief.jsp',4),
+(3,2,'Add Routine','routine.jsp',4),
+(4,4,'Post-Survey','postsurvey.jsp',5),
+(5,5,'Completion','completed.jsp',5);
 
 -- --------------------------------------------------------
 
