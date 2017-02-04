@@ -95,13 +95,10 @@ public class DBProcess {
 		int count = 0;
 		int completion = 0;
 		String dtime = currentDateTIme();
-		/*
-		 * NameGen gen = new NameGen(); String name = gen.getName();
-		 */
 		String name = "Participant";
 		try {
 			PreparedStatement statement = mConn
-					.prepareStatement("INSERT INTO `users`(`mturk_id`, `created_at`, `completion_state`) VALUES ('"
+					.prepareStatement("INSERT INTO `users`(`mturk_id`, `created_at`, `completion`) VALUES ('"
 							+ mturk + "','" + dtime + "','" + completion + "')");
 			count = statement.executeUpdate();
 			statement.close();
@@ -157,6 +154,41 @@ public class DBProcess {
 			e.printStackTrace();
 		}
 		return rs;
+	}
+	
+	public int getUserTaskDay(String uid) {
+		ResultSet rs = null;
+		int day = 0;
+		try {
+			Statement st = mConn.createStatement();
+			rs = st.executeQuery("SELECT DISTINCT day FROM crowdsensingdb.routine_responses WHERE uid='"+uid+"'");
+			while(rs.next()){
+				String temp = rs.getString("day");
+				int tempVal = 0;
+				switch(temp){
+				case "Monday": 	tempVal = 1;
+								break;
+				case "Tuesday": tempVal = 2;
+								break;
+				case "Wednesday": 	tempVal = 3;
+									break;
+				case "Thursday": 	tempVal = 4;
+									break;
+				case "Friday": 	tempVal = 5;
+								break;
+				case "Saturday": 	tempVal = 6;
+									break;
+				case "Sunday": 	tempVal = 7;
+								break;
+				}
+				if(day<tempVal){
+					day = tempVal;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return day;
 	}
 
 //	public int setGroup(String uid, String gid) throws ClassNotFoundException, IOException, SQLException {
@@ -319,7 +351,7 @@ public class DBProcess {
 		ResultSet rs = null;
 		int count = 0;
 		try {
-			String[] tables = { "presurvey_responses", "personality_responses", "discpersonality_responses" };
+			String[] tables = { "presurvey_responses" };
 			Statement st = mConn.createStatement();
 			for (int i = 0; i < tables.length; i++) {
 				rs = st.executeQuery("SELECT COUNT(*) as nos FROM " + tables[i] + " where user_id=" + uid);
@@ -351,24 +383,24 @@ public class DBProcess {
 //		return count;
 //	}
 
-	public int timeOutCheck(int uid) throws ClassNotFoundException, IOException, SQLException {
-		ResultSet rs = null;
-		try {
-			Statement st = mConn.createStatement();
-			rs = st.executeQuery("SELECT * FROM users WHERE users.id = " + uid
-					+ " and users.created_at > DATE_SUB(NOW(), INTERVAL 3 HOUR)");
-//			int tcount = testCaseCount(uid);
-			/* Modify tcount to base */
-			if (!rs.isBeforeFirst()) {
-				Statement st3 = mConn.createStatement();
-				st3.executeUpdate("UPDATE users SET completion = 1 WHERE id='" + uid + "'");
-				return 1;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
+//	public int timeOutCheck(int uid) throws ClassNotFoundException, IOException, SQLException {
+//		ResultSet rs = null;
+//		try {
+//			Statement st = mConn.createStatement();
+//			rs = st.executeQuery("SELECT * FROM users WHERE users.id = " + uid
+//					+ " and users.created_at > DATE_SUB(NOW(), INTERVAL 3 HOUR)");
+////			int tcount = testCaseCount(uid);
+//			/* Modify tcount to base */
+//			if (!rs.isBeforeFirst()) {
+//				Statement st3 = mConn.createStatement();
+//				st3.executeUpdate("UPDATE users SET completion = 1 WHERE id='" + uid + "'");
+//				return 1;
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return 0;
+//	}
 
 	public void updateCompletionState(String uid) throws ClassNotFoundException, IOException, SQLException {
 		try {
@@ -403,16 +435,30 @@ public class DBProcess {
 	}
 
 	public String getCompletionCode(String uid) throws ClassNotFoundException, IOException, SQLException {
-		String ret = "";
+		String salt = "";
 		try {
+			Statement st1 = mConn.createStatement();
+			ResultSet rs1 = st1.executeQuery("select completion_code from users where id = '" + uid + "'");
+			if(rs1.next()){
+				if(rs1.getString("completion_code")!=null){
+					return rs1.getString("completion_code");
+				}
+			}
+			Statement st3 = mConn.createStatement();
+			boolean uniq = true;
 			Statement st = mConn.createStatement();
-			ResultSet rs = st.executeQuery("select completion_code from users where id = " + uid);
-			rs.next();
-			ret = rs.getString("completion_code");
+			ResultSet rs;
+			while (uniq) {
+				salt = getSaltString();
+				rs = st.executeQuery("select id from users where completion_code = '" + salt + "'");
+				if (!rs.isBeforeFirst())
+					uniq = false;
+			}
+			st3.executeUpdate("UPDATE users SET completion_code = '" + salt + "' WHERE id='" + uid + "'");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return ret;
+		return salt;
 	}
 
 	public ResultSet getQuestions(String TableName) throws ClassNotFoundException, IOException, SQLException {
@@ -849,17 +895,17 @@ public class DBProcess {
 		}
 	}
 
-	public ResultSet getNotifications(int groupId) {
-		ResultSet rs = null;
-		try {
-			Statement st = mConn.createStatement();
-			rs = st.executeQuery(
-					"select link, content, created_at from notifications where gid = " + groupId + " order by id desc");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rs;
-	}
+//	public ResultSet getNotifications() {
+//		ResultSet rs = null;
+//		try {
+//			Statement st = mConn.createStatement();
+//			rs = st.executeQuery(
+//					"SELECT link, content, created_at from notifications where order by id desc");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return rs;
+//	}
 
 	public ResultSet getMenu(String SeqNo) {
 		ResultSet rs = null;
@@ -887,5 +933,40 @@ public class DBProcess {
 //			e.printStackTrace();
 //		}
 //	}
+	
+	public int addRoutineResponse(String uid, String day, String beginTime, String endTime, String location, String activity, String musicPlayerApp, String ringerManagerApp){
+		int count = 0;
+		try{
+			PreparedStatement statement = mConn.prepareStatement(
+					"INSERT INTO `routine_responses`(`uid`, `day`, `beginTime`, `endTime`, `location`, `activity`, `musicPlayerApp`, `ringerManagerApp`) VALUES "
+					+ "(?,?,?,?,?,?,?,?)");
+			statement.setInt(1, Integer.parseInt(uid));
+			statement.setString(2, day);
+			statement.setString(3, beginTime);
+			statement.setString(4, endTime);
+			statement.setString(5, location);
+			statement.setString(6, activity);
+			statement.setString(7, musicPlayerApp);
+			statement.setString(8, ringerManagerApp);
+			count += statement.executeUpdate();
+			statement.close();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	public ResultSet getRoutineResponse(String uid, String day){
+		ResultSet rs = null;
+		try {
+			Statement st = mConn.createStatement();
+			System.out.println(uid);
+			System.out.println(day);
+			rs = st.executeQuery("SELECT * FROM routine_responses WHERE uid = '" + uid + "' AND day = '" + day + "'");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rs;
+	}
 
 }

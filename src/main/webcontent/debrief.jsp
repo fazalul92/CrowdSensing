@@ -148,49 +148,7 @@ h3 {
 										stressed.</li>
 								</ul>
 								<!-- Nominal Group Instructions -->
-								<%
-									  if (Integer.parseInt(session.getAttribute("group_type").toString()) == 1) {
-									%>
-
-								<!-- Non-interacting Group Instructions -->
-								<%
-									  } else if (Integer.parseInt(session.getAttribute("group_type").toString()) == 2) {
-									%>
-								<h2>Group Work</h2>
-								<p>You will work in a group for this task. As part of the
-									group, you can see what test scenarios others are producing.
-									Although your scenarios can be inspired from the ones others
-									produce, your scenarios must be different from the ones others
-									produce in some aspect (e.g., different stimulus, response, or
-									context).</p>
-
-								<p>Please keep in mind that your group mates may not be
-									online at the same time you are.</p>
-
-								<!-- Interacting Group Instructions -->
-								<%
-									  } else if (Integer.parseInt(session.getAttribute("group_type").toString()) == 3) {
-									%>
-								<h2>Group Work</h2>
-								<p>You will work in a group for this task. As part of the
-									group, you can see what test scenarios others are producing and
-									comment on those scenarios. Although your scenarios can be
-									inspired from the ones others produce, your scenarios must be
-									different from the ones others produce in some aspect (e.g.,
-									different stimulus, response, or context).</p>
-
-								<p>You can use the Discussions page to ask questions your
-									group members and answer others' questions.</p>
-
-                <p>Please keep in mind that your group mates may not be
-                  online at the same time you are.</p>
-
-								<p>Be a team player! You can contribute to your group, e.g.,
-									by answering questions and providing constructive comments.</p>
-
-								<%
-								  }
-								%>
+								<
 
 								<h2>Quantity and Quality</h2>
 
@@ -208,7 +166,7 @@ h3 {
 								</p>
 
 							</div>
-							<a href="requirements.jsp">
+							<a href="routine.jsp">
 								<button type="button" class="btn btn-success">I
 									Understand, Continue</button>
 							</a>

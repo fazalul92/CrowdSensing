@@ -3,8 +3,8 @@
 <%
 	String mturk = request.getParameter("mturk");
 	DBProcess dbProc = new DBProcess();
-	int ret = dbProc.loginUser(mturk);
 	try {
+		int ret = dbProc.loginUser(mturk);
 		if (ret == 0) {
 			ret = dbProc.registerUser(mturk);
 		}
@@ -15,14 +15,11 @@
 			ResultSet rs = dbProc.getUser(Integer.toString(ret));
 			rs.next();
 			session.setAttribute("userid", ret);
-			session.setAttribute("state", rs.getInt("status_state"));
-			if(rs.getInt("completion")==0){
-				int comp = dbProc.timeOutCheck(ret);
-				session.setAttribute("completion", comp);
-			} else {
-				session.setAttribute("completion", rs.getInt("completion_state"));
-			}
+			session.setAttribute("name", ret);
+			session.setAttribute("state", rs.getInt("state"));
+			session.setAttribute("completion", rs.getInt("completion"));
 			session.setAttribute("auth", true);
+			session.setAttribute("routineDay",dbProc.getUserTaskDay(Integer.toString(ret)));
 			dbProc.addLog(ret,"Login");
 			response.sendRedirect("../dashboard.jsp");
 		}

@@ -14,6 +14,7 @@
 		if (ret > 0) {
 			String[] StateInfo = dbProc.updateState(uid, session.getAttribute("state").toString());
 			session.setAttribute("state", StateInfo[0]);
+			session.setAttribute("routineDay",0);
 			response.sendRedirect("../" + StateInfo[1]);
 		} else {
 			response.sendRedirect("../presurvey.jsp");

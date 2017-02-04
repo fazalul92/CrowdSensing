@@ -46,11 +46,6 @@
 											<tbody>
 												<%
 												  while (rs1.next()) {
-												    if (rs1.getInt("user_group_type") != 0
-												        && (Integer.parseInt(session.getAttribute("group_type").
-												            toString()) != rs1.getInt("user_group_type"))) {
-												      continue;
-												    }
 												%>
 												<tr>
 													<% if (rs1.getString("question_type").equals("text")) { %>

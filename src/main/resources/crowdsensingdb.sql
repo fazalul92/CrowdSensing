@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `status_state` int(11) NOT NULL DEFAULT '0' COMMENT '0 = new user, 1 = presurvey, 2 = personality, 3 = creativity, 10 = prereqs completed.',
   `completion_code` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;users
 
 CREATE TABLE IF NOT EXISTS `notifications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -65,6 +65,36 @@ INSERT INTO `presurvey_questions` (`id`, `description`, `question_type`, `answer
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `postsurvey_questions`
+--
+
+CREATE TABLE IF NOT EXISTS `postsurvey_questions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) DEFAULT NULL,
+  `question_type` varchar(50) DEFAULT NULL,
+  `answer_choices` varchar(255) DEFAULT NULL,
+  `required` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `postsurvey_responses`
+--
+
+CREATE TABLE IF NOT EXISTS `postsurvey_responses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table  'statuses'
 --
 CREATE TABLE IF NOT EXISTS `statuses` (
@@ -84,3 +114,16 @@ INSERT INTO `statuses` (`id`, `seq_no`, `title`, `filename`, `next_seq`) VALUES
 (5, 5, 'Completion', 'completed.jsp', 5);
 
 -- --------------------------------------------------------
+
+--
+-- Table 'logs'
+--
+CREATE TABLE IF NOT EXISTS `logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `message` varchar(25) NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=78 ;
+
+-- ---------------------------------------------------------

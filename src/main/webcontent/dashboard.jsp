@@ -1,10 +1,6 @@
 <%@ page import="edu.rit.se.creativecrowd.DBProcess"%>
 <%
 	DBProcess dbProc = new DBProcess();
-	if(Integer.parseInt(session.getAttribute("completion").toString())==0){
-		int comp = dbProc.timeOutCheck(Integer.parseInt(session.getAttribute("userid").toString()));
-		session.setAttribute("completion", comp);
-	}
 %>
 
 <!DOCTYPE html>
