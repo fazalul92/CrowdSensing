@@ -33,137 +33,53 @@ h3 {
 								<h2>Task Description</h2>
 
 								<p>
-									Your main task is to come up with <b>test scenarios</b> for
-									smart home applications. You do not require any specific domain
-									knowledge to complete this task. Just <b>use you
-										imagination</b>! Below, we provide basic information on some key
-									concepts and examples of test scenarios.
+									Your main task is to imagine your daily routine and the requirements
+									for two mobile applications for these daily tasks.  You do not need to
+									use any application to complete this task. Just imagine how you would
+									expect your mobile phone to behave during certain times in your routine.
+									Below, we provide basic information on some key
+									concepts and examples.
 								</p>
 
-								<h3>What is a smart home?</h3>
-
+								<h2> Task Details</h2>
+								
 								<p>
-									A smart home consists of smart things! Smart things are objects
-									that can sense their surroundings, compute from the sensed
-									data, and communicate the computed results to humans or other
-									smart things. In addition to gadgets such as laptops and smart
-									phones, an increasing variety of household objects such as TVs,
-									light bulbs, heaters, stoves, doors and windows, sprinklers,
-									and cars are becoming smart things.
-									<!-- The picture to the right shows some Smart Home sensors. -->
+									Imagine a real life scenario for each day. The day starts at 00:00 AM,
+									and you might be in bed till 9 AM. During this time, you're at home, 
+									your phone will be kept on the table, and you do not require
+									any music but you want your volume to be silent. Similarly, you can imagine the various 
+									things you do on a daily basis. For each of these events, you have to provide
+									the most common activity that the phone will encounter. For example, when sleeping,
+									the phone will be kept still, and while awake and cooking breakfast, you are most likely 
+									to walk around the house. Later, your location will change from home to road, and then
+									office. You are required to provide such routines and the corresponding behaviors
+									you expect from the follwing two applications:
 								</p>
-
-								<h3>What is a smart home requirement?</h3>
-
-								<p>A smart home may host several applications. Each smart
-									home application addresses one or more user requirements. You
-									will produce test scenarios for one specific application with a
-									given set of requirements (described in the next page). Below,
-									we describe a smart home application with two requirements as
-									an example.</p>
-
-								<ul>
-									<li><b>Application:</b> Smart doors&mdash;A smart home should
-										automatically lock and unlock doors.</li>
-									<li><b>Requirement 1:</b> When an authorized vehicle
-										approaches the garage, the smart home automatically opens the
-										garage door.</li>
-									<li><b>Requirement 2:</b> After a vehicle enters the
-										garage, the smart home automatically locks the garage door.</li>
-									<!--<ul>
-											<li>When an authorized vehicle comes to the front gate,
-												the smart home automatically opens the gate.</li>
-											<li>When an authorized person comes to the front door,
-												the smart home automatically unlocks the door for the
-												person.</li>
-										</ul>-->
-								</ul>
-
-								<h3>What is a test scenario?</h3>
-
-								<p>A test scenario describes a way to check whether the
-									application meets a prescribed requirement or not. A test
-									scenario consists of three components: stimulus, context, and
-									response.</p>
-
-								<ul>
-									<li><b>Stimulus</b> describes how you initiate the
-										application to react in some way.</li>
-                  <li><b>Context</b> describes the condition in which the
-                    stimulus occurs.</li>										
-									<li><b>Response</b> describes what you expect the
-										application to do in response to the stimulus.</li>
-								</ul>
-
-								<p>Consider three test scenarios for the requirements, for
-									example.</p>
-
-								<ul>
-									<li>Test scenario 1 for Requirement 1:
-										<ul>
-											<li><b>Stimulus: </b>I drive my motorbike towards the
-												garage door.</li>
-											<li><b>Context: </b>My motorbike is authorized; it is
-                        night time.</li>												
-											<li><b>Response: </b>Garage door should open.</li>
-										</ul>
-									</li>
-									<li>Test scenario 2 for Requirement 1:
-										<ul>
-											<li><b>Stimulus: </b>My friend drives his car towards my
-												garage door.</li>
-											<li><b>Context: </b>My friend's car is not authorized.
-                        His car is same make, model, and color as my authorized car.
-                        It is day time.</li>												
-											<li><b>Response: </b>Garage door should not open.</li>
-										</ul>
-									</li>
-                  <li>Test scenario 3 for Requirement 2:
-                    <ul>
-											<li><b>Stimulus: </b>Once the garage door is open, I
-												drive my car into the garage, but stop it before completely
-												entering the garage.</li>
-											<li><b>Context: </b>My car is authorized. </li>
-											<li><b>Response: </b>Garage door should not close as
-												long as my car is not completely inside.</li>
-										</ul>
-                  </li>									
-								</ul>
-
-                <h3>Hints to Get Started</h3>
-
+								
 								<p>
-									It is important to be <b>creative</b> in generating test
-									scenarios. The following are some points you can keep in mind
-									to get started.
+									<b>Music Player Application</b> This application contains music in four genres - Jazz,
+									Pop, Country and Rock. You have to select the type of music you like for different scenarios you
+									go through.
 								</p>
-
-								<ul>
-									<li>Imagine how end-users employ the application.</li>
-									<li>Imagine some potential ways in which the application
-										may be misused.</li>
-									<li>Imagine potential scenarios in which the application
-										may break.</li>
-									<li>Imagine potential ways in which the application may be
-										stressed.</li>
-								</ul>
-								<!-- Nominal Group Instructions -->
-								<
+								
+								<p>
+									<b>Ringer Manager Application</b> This application controls your ringer volume, and has three
+									options - Normal, Silent and Vibrate. In Normal settings, the phone plays the regular notification
+									sounds and vibrates. In Silent settings, the notifications are completely muted. In Vibrate setting, the 
+									phone vibrates, but does not make any sound. Choose your setting for each scenario you go encounter.
+								</p>
+								
+								<p>
+									A sample task is shown below. Do not copy the exact task, but rather imagine your own routine:
+									<img src="./images/sampletask.png" style="width:100%;"/>
+								</p>
 
 								<h2>Quantity and Quality</h2>
 
-								<p>You required to come up with at least two unique test
-									scenarios. For that, you will receive a base pay of USD 3.
-									However, we encourage you to come up with as many test
+								<p>You required to come up with at least five routine events per day and provide the information about
+									seven days. For that, you will receive a base pay of USD 3.
+									However, we encourage you to come up with as many
 									scenarios as possible.</p>
-
-								<p>
-									<b>Bonus: </b>Depending on the the number of test scenarios you
-									produce and their quality, you may receive a Bonus of up to USD
-									3. High quality test scenarios are easy to understand, cover
-									a variety of scenarios, and, most importantly, help find faults
-									in the application.
-								</p>
 
 							</div>
 							<a href="routine.jsp">

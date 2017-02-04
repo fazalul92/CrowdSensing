@@ -46,31 +46,29 @@
 								<p>
 									<b>Thank you</b> for choosing to participate in this research
 									study. Your participation helps advance the state of the art on
-									crowd computing.
+									requirements engineering.
 								</p>
 								<p>
 									If you have questions or experience technical problems during
-									the study, please contact the researcher, Pradeep Murukannaiah,
-									at <a href="mailto:pkmvse@rit.edu" class="text-primary">pkmvse@rit.edu.</a>
+									the study, please contact the researcher,Muhammad Fazalul
+									Rahman, at <a href="mailto:mf3791@rit.edu" class="text-primary">mf3791@rit.edu.</a>
 								</p>
 
 								<h3>Study Overview</h3>
 
-								<p>The objective of this study is to engage members of the
-									crowd, like you, in generating ideas for test scenarios. To
-									complete this study you are not required to possess any
-									specific domain knowledge. However, you need to exercise your
-									creativity. The study consists of three main steps:</p>
+								<p>The objective of this study is to learn the varying
+									requirements of users, like you, and use them to dynamically understand user requirements. To complete this study you are required to
+									possess knowledge of using smartphones. The study consists of three main
+									steps:</p>
 
 								<ul>
-									<li><b>Presurveys</b> collect information about your
-										demographics and personality. Estimated time: 10 to 15
+									<li><b>Presurvey</b> collect information about your
+										demographics. Estimated time: 0.5 to 1
 										minutes.</li>
-									<li><b>Main task</b> requires you to come up with atleast
-										two test scenarios. Details on this task will be provided
-										after presurveys. Estimated time: 15 to 30 minutes.</li>
+									<li><b>Main task</b> requires you to imagine your daily routine and imagine requirements. Details on this task will be provided
+										after presurveys. Estimated time: 15 to 20 minutes.</li>
 									<li><b>Postsurvey</b> collects information about your
-										experience on the main task. Estimated time: 5 minutes.</li>
+										experience on the main task. Estimated time: 2 minutes.</li>
 								</ul>
 
 								<p>
@@ -80,51 +78,15 @@
 										code</b> to submit the task on the Amazon MTurk website.
 								</p>
 
-								<h3>Important: Time Requirement for the Main Task</h3>
 
-								<p>
-									Although the actual time the main task might take is about 15
-									to 30 minutes, we require that you sit on the task for <b>at
-										least three hours</b>. Thus, the postsurvey will only appear after
-									three hours from the time of your first login.
-								</p>
-
-								<p>Please note that we do not require you to work on the
-									main task for all three hours. You can work on the main task
-									intermittently, even in multiple sittings. Your work is saved
-									at each step. You can login any number of times and each time
-									you login, you can start from where you left. If you experience
-									any problems, please start over from the login page.</p>
-
-								<p>The HIT expires in 24 hours. So, you should finish all
-									steps with in 24 hours.</p>
+								<p>The HIT expires in 1 hours. So, you should finish all
+									steps within 1 hours.</p>
 
 								<h3>Payment and Bonus</h3>
 
 								<p>The base payment for completing the required tasks is USD
-									3. However, you may receive an additional bonus of upto USD 3
-									based on the quality and quantity of your work. More details
-									will follow. The table below summarizes your progress.</p>
+									3.</p>
 
-								<table border="1" id="detailsTable">
-									<tr>
-										<td></td>
-										<td>Completed</td>
-										<td>Minimum Required</td>
-									</tr>
-									<tr>
-										<td>Time</td>
-										<td><%= dbProc.timeSinceLogin(session.getAttribute("userid").toString()) %>
-										</td>
-										<td>3 hours</td>
-									</tr>
-									<tr>
-										<td>Pre-Surveys</td>
-										<td><%= dbProc.preSurveyCount(Integer.parseInt(session.getAttribute("userid").toString())) %>
-										</td>
-										<td>3</td>
-									</tr>
-								</table>
 							</div>
 						</div>
 					</div>

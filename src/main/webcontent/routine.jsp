@@ -28,7 +28,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Creativity Questions</h3>
+                <h3>Routine Questions - <%= days[dayCounter] %></h3>
               </div>
 
             </div>
@@ -42,11 +42,17 @@
                   </div>
                   <div class="x_content">
 									<p>
+									Please provide the details about your routine, and the corresponding requirements for the two applications
 									</p>
 
 
 									<p>
 										<b>Note: </b> 
+										<ul>
+											<li><b>Start Time and End Time</b> are to be given in 24 hour format. eg: <b>16:00</b></li>
+											<li>Your location can be anything like <b>home</b>, <b>office</b>, <b>shopping mall</b>, etc</li>
+											<li>Please select the most prominent activity in the given time period. For example, if you are at a shopping mall, and mostly walking, select Walking.</li>
+										</ul>
 									</p>
                     <br />
                     <% if(dayCounter>0) { %>
@@ -75,8 +81,8 @@
                      
                      <table class="table" style="border:0px;">
                      <thead>
-                     	<th style="width:7%;">Time Start</th>
-                     	<th style="width:7%;">Time End</th>
+                     	<th style="width:7%;">Start TIme</th>
+                     	<th style="width:7%;">End Time</th>
                      	<th style="width:16%;">Location</th>
                      	<th style="width:10%;">Activity</th>
                      	<th style="width:20%;">Music Player App</th>
@@ -84,8 +90,6 @@
                      </thead>
                     <% if(request.getParameter("fillDayData")!=null){ 
                     	ResultSet rs = dbProcess.getRoutineResponse(session.getAttribute("userid").toString(), request.getParameter("fillDayData").toString());
-                    	System.out.println(session.getAttribute("userid").toString());
-                    	System.out.println(request.getParameter("fillDayData").toString());
                     	
                     %>
                     	<tbody>
@@ -94,8 +98,10 @@
                         	<input type="hidden" name="nextDay" value="<%= days[dayCounter+1] %>" class="form-control" />
                         <% } else {%>
                         	<input type="hidden" name="nextDay" value="end" class="form-control" />
-                        <% } %>
-                        <% for(int j=0;rs.next()&&j<24;j++) { %>
+                        <% } 
+                        	int j = 0;
+                        %>
+                        <% for(;rs.next()&&j<24;j++) { %>
                       		<tr>
 		                    	<td><input type="text" name="<%= j %>-beginTime" class="form-control" value="<%= rs.getString("beginTime") %>"/></td>
 		                    	<td><input type="text" name="<%= j %>-endTime" class="form-control" value="<%= rs.getString("endTime") %>"/></td>
@@ -104,13 +110,14 @@
                         			<select name="<%= j %>-activity" class="form-control">
                         				<option value="IN_VEHICLE" <% if(rs.getString("activity").equals("IN_VEHICLE")) { out.println("selected"); } %> >In Vehicle</option>
                         				<option value="ON_BICYCLE" <% if(rs.getString("activity").equals("ON_BICYCLE")) { out.println("selected"); } %> >On Bicycle</option>
-                        				<option value="ON_FOOT" <% if(rs.getString("activity").equals("ON_FOOT")) { out.println("selected"); } %> >On Foot</option>
+                        				<option value="ON_FOOT" <% if(rs.getString("activity").equals("ON_FOOT")) { out.println("selected"); } %> >Walking</option>
                         				<option value="RUNNING" <% if(rs.getString("activity").equals("RUNNING")) { out.println("selected"); } %> >Running</option>
                         				<option value="STILL" <% if(rs.getString("activity").equals("STILL")) { out.println("selected"); } %> >Still</option>
                         			</select>
                         		</td>
                         		<td>
                         			<select name="<%= j %>-musicPlayerApp" class="form-control">
+                        				<option value="NONE" <% if(rs.getString("musicPlayerApp").equals("NONE")) { out.println("selected"); } %> >None</option>
                         				<option value="JAZZ" <% if(rs.getString("musicPlayerApp").equals("JAZZ")) { out.println("selected"); } %> >Jazz</option>
                         				<option value="POP" <% if(rs.getString("musicPlayerApp").equals("POP")) { out.println("selected"); } %> >Pop</option>
                         				<option value="COUNTRY" <% if(rs.getString("musicPlayerApp").equals("COUNTRY")) { out.println("selected"); } %> >Country</option>
@@ -126,22 +133,23 @@
                         		</td>
                        		</tr>
                         <% } %>
-                      	<% for(int j=0;j<24;j++) { %>
+                      	<% for(;j<24;j++) { %>
                       	<tr>
-		                    	<td><input type="text" name="<%= j %>-beginTime" class="form-control"/></td>
-		                    	<td><input type="text" name="<%= j %>-endTime" class="form-control"/></td>
-                        		<td><input type="text" name="<%= j %>-location" class="form-control"></td>
+		                    	<td><input type="text" name="<%= j %>-beginTime" class="form-control" placeholder="15:15"/></td>
+		                    	<td><input type="text" name="<%= j %>-endTime" class="form-control" placeholder="15:15"/></td>
+                        		<td><input type="text" name="<%= j %>-location" class="form-control" placeholder="home, office, mall, etc."></td>
                         		<td>
                         			<select name="<%= j %>-activity" class="form-control">
                         				<option value="IN_VEHICLE">In Vehicle</option>
                         				<option value="ON_BICYCLE">On Bicycle</option>
-                        				<option value="ON_FOOT">On Foot</option>
+                        				<option value="ON_FOOT">Walking</option>
                         				<option value="RUNNING">Running</option>
                         				<option value="STILL">Still</option>
                         			</select>
                         		</td>
                         		<td>
                         			<select name="<%= j %>-musicPlayerApp" class="form-control">
+                        				<option value="NONE">None</option>
                         				<option value="JAZZ">Jazz</option>
                         				<option value="POP">Pop</option>
                         				<option value="COUNTRY">Country</option>
@@ -168,20 +176,21 @@
                         <% } %>
                       	<% for(int j=0;j<24;j++) { %>
                       	<tr>
-		                    	<td><input type="text" name="<%= j %>-beginTime" class="form-control"/></td>
-		                    	<td><input type="text" name="<%= j %>-endTime" class="form-control"/></td>
-                        		<td><input type="text" name="<%= j %>-location" class="form-control"></td>
+		                    	<td><input type="text" name="<%= j %>-beginTime" class="form-control" placeholder="15:15"/></td>
+		                    	<td><input type="text" name="<%= j %>-endTime" class="form-control" placeholder="15:15"/></td>
+                        		<td><input type="text" name="<%= j %>-location" class="form-control"  placeholder="home, office, mall, etc."></td>
                         		<td>
                         			<select name="<%= j %>-activity" class="form-control">
                         				<option value="IN_VEHICLE">In Vehicle</option>
                         				<option value="ON_BICYCLE">On Bicycle</option>
-                        				<option value="ON_FOOT">On Foot</option>
+                        				<option value="ON_FOOT">Walking</option>
                         				<option value="RUNNING">Running</option>
                         				<option value="STILL">Still</option>
                         			</select>
                         		</td>
                         		<td>
                         			<select name="<%= j %>-musicPlayerApp" class="form-control">
+                        				<option value="NONE">None</option>
                         				<option value="JAZZ">Jazz</option>
                         				<option value="POP">Pop</option>
                         				<option value="COUNTRY">Country</option>
