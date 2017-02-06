@@ -13,9 +13,11 @@
 		String endTime = request.getParameter(i+"-endTime");
 		String location = request.getParameter(i+"-location");
 		String activity = request.getParameter(i+"-activity");
+		String socialCircle = request.getParameter(i+"-socialCircle");
+		String mood = request.getParameter(i+"-mood");
 		String musicPlayerApp = request.getParameter(i+"-musicPlayerApp");
 		String ringerManagerApp = request.getParameter(i+"-ringerManagerApp");
-		ret += dbProcess.addRoutineResponse(uid, day, beginTime, endTime, location, activity, musicPlayerApp, ringerManagerApp);
+		ret += dbProcess.addRoutineResponse(uid, day, beginTime, endTime, location, activity, socialCircle, mood, musicPlayerApp, ringerManagerApp);
 	}
     if (ret > 0) {
 	    int dayCounter = (Integer) session.getAttribute("routineDay");

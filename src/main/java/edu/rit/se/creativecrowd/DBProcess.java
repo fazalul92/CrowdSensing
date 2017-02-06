@@ -934,20 +934,22 @@ public class DBProcess {
 //		}
 //	}
 	
-	public int addRoutineResponse(String uid, String day, String beginTime, String endTime, String location, String activity, String musicPlayerApp, String ringerManagerApp){
+	public int addRoutineResponse(String uid, String day, String beginTime, String endTime, String location, String activity, String socialCircle, String mood, String musicPlayerApp, String ringerManagerApp){
 		int count = 0;
 		try{
 			PreparedStatement statement = mConn.prepareStatement(
-					"INSERT INTO `routine_responses`(`uid`, `day`, `beginTime`, `endTime`, `location`, `activity`, `musicPlayerApp`, `ringerManagerApp`) VALUES "
-					+ "(?,?,?,?,?,?,?,?)");
+					"INSERT INTO `routine_responses`(`uid`, `day`, `beginTime`, `endTime`, `location`, `activity`, `socialCircle`, `mood`, `musicPlayerApp`, `ringerManagerApp`) VALUES "
+					+ "(?,?,?,?,?,?,?,?,?,?)");
 			statement.setInt(1, Integer.parseInt(uid));
 			statement.setString(2, day);
 			statement.setString(3, beginTime);
 			statement.setString(4, endTime);
 			statement.setString(5, location);
 			statement.setString(6, activity);
-			statement.setString(7, musicPlayerApp);
-			statement.setString(8, ringerManagerApp);
+			statement.setString(7, socialCircle);
+			statement.setString(8, mood);
+			statement.setString(9, musicPlayerApp);
+			statement.setString(10, ringerManagerApp);
 			count += statement.executeUpdate();
 			statement.close();
 		} catch (SQLException e){

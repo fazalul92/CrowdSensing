@@ -1,10 +1,12 @@
 <%@ page import ="java.sql.ResultSet" %>
+<%@ page import ="java.util.Arrays" %>
 <%@ page import ="edu.rit.se.creativecrowd.DBProcess" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
   <%@ include file="head.jsp" %>
 	<link href="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="./vendors/selectize/selectize.css" />
   </head>
 
   <body class="nav-md">
@@ -19,6 +21,10 @@
 			//int dayCounter = 1;
 			int dayCounter = (Integer) session.getAttribute("routineDay");
 			String[] days = {"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
+			String[] activityArray = {"","In Vehicle","On Bicycle","Running","Still","Walking"};
+			String[] locationArray = {"","Grocery Store","Mall","Home","Office","Road","School","University"};
+			String[] socialCircleArray = {"","Alone","Family","Friends","Colleagues","Strangers"};
+			String[] moodArray = {"","Happy","Sad","Angry","Stressed","Neutral","Relaxed"};
 		%>
 		
         <!-- page content -->
@@ -84,10 +90,12 @@
                      <thead>
                      	<th style="width:7%;">Start TIme</th>
                      	<th style="width:7%;">End Time</th>
-                     	<th style="width:16%;">Location</th>
+                     	<th style="width:8%;">Location</th>
                      	<th style="width:10%;">Activity</th>
-                     	<th style="width:20%;">Music Player App</th>
-                     	<th style="width:20%;">Ringer Manager App</th>
+                     	<th style="width:14%;">Social Circle</th>
+                     	<th style="width:14%;">Mood</th>
+                     	<th style="width:10%;">Music Player App</th>
+                     	<th style="width:10%;">Ringer Manager App</th>
                      </thead>
                     <% if(request.getParameter("fillDayData")!=null){ 
                     	ResultSet rs = dbProcess.getRoutineResponse(session.getAttribute("userid").toString(), request.getParameter("fillDayData").toString());
@@ -104,64 +112,135 @@
                         %>
                         <% for(;rs.next()&&j<24;j++) { %>
                       		<tr>
-		                    	<td><input type="text" name="<%= j %>-beginTime" class="form-control" value="<%= rs.getString("beginTime") %>"/></td>
-		                    	<td><input type="text" name="<%= j %>-endTime" class="form-control" value="<%= rs.getString("endTime") %>"/></td>
-                        		<td><input type="text" name="<%= j %>-location" class="form-control" value="<%= rs.getString("location") %>"/></td>
+		                    	<td><input type="text" name="<%= j %>-beginTime" class="form-control" value="<%= rs.getString("beginTime") %>" <% if(j<5){ out.println("required"); } %> /></td>
+		                    	<td><input type="text" name="<%= j %>-endTime" class="form-control" value="<%= rs.getString("endTime") %>" <% if(j<5){ out.println("required"); } %> /></td>
                         		<td>
-                        			<select name="<%= j %>-activity" class="form-control">
-                        				<option value="IN_VEHICLE" <% if(rs.getString("activity").equals("IN_VEHICLE")) { out.println("selected"); } %> >In Vehicle</option>
-                        				<option value="ON_BICYCLE" <% if(rs.getString("activity").equals("ON_BICYCLE")) { out.println("selected"); } %> >On Bicycle</option>
-                        				<option value="ON_FOOT" <% if(rs.getString("activity").equals("ON_FOOT")) { out.println("selected"); } %> >Walking</option>
-                        				<option value="RUNNING" <% if(rs.getString("activity").equals("RUNNING")) { out.println("selected"); } %> >Running</option>
-                        				<option value="STILL" <% if(rs.getString("activity").equals("STILL")) { out.println("selected"); } %> >Still</option>
+                        			<select name="<%= j %>-location" class="selectize-activity" <% if(j<5){ out.println("required"); } %> >
+                        				<option value="" <% if(rs.getString("location").equals("")) { out.println("selected"); } %> > </option>
+                        				<option value="Home" <% if(rs.getString("location").equals("Home")) { out.println("selected"); } %> >Home</option>
+                        				<option value="Road" <% if(rs.getString("location").equals("Road")) { out.println("selected"); } %> >Road</option>
+                        				<option value="Office" <% if(rs.getString("location").equals("Office")) { out.println("selected"); } %> >Office</option>
+                        				<option value="Mall" <% if(rs.getString("location").equals("Mall")) { out.println("selected"); } %> >Mall</option>
+                        				<option value="Grocery Store" <% if(rs.getString("location").equals("Grocery Store")) { out.println("selected"); } %> >Grocery Store</option>
+                        				<option value="School" <% if(rs.getString("location").equals("School")) { out.println("selected"); } %> >School</option>
+                        				<option value="University" <% if(rs.getString("location").equals("University")) { out.println("selected"); } %> >University</option>
+                        				<% if(!Arrays.asList(locationArray).contains(rs.getString("location"))) { out.println("<option selected value=\""+rs.getString("location")+"\">"+rs.getString("location")+"</option>"); } %>
                         			</select>
                         		</td>
                         		<td>
-                        			<select name="<%= j %>-musicPlayerApp" class="form-control">
-                        				<option value="NONE" <% if(rs.getString("musicPlayerApp").equals("NONE")) { out.println("selected"); } %> >None</option>
-                        				<option value="JAZZ" <% if(rs.getString("musicPlayerApp").equals("JAZZ")) { out.println("selected"); } %> >Jazz</option>
-                        				<option value="POP" <% if(rs.getString("musicPlayerApp").equals("POP")) { out.println("selected"); } %> >Pop</option>
-                        				<option value="COUNTRY" <% if(rs.getString("musicPlayerApp").equals("COUNTRY")) { out.println("selected"); } %> >Country</option>
-                        				<option value="ROCK" <% if(rs.getString("musicPlayerApp").equals("ROCK")) { out.println("selected"); } %> >Rock</option>
+                        			<select name="<%= j %>-activity" class="selectize-activity" <% if(j<5){ out.println("required"); } %> >
+                        				<option value="" <% if(rs.getString("activity").equals("")) { out.println("selected"); } %> > </option>
+                        				<option value="In Vehicle" <% if(rs.getString("activity").equals("In Vehicle")) { out.println("selected"); } %> >In Vehicle</option>
+                        				<option value="On Bicycle" <% if(rs.getString("activity").equals("On Bicycle")) { out.println("selected"); } %> >On Bicycle</option>
+                        				<option value="Walking" <% if(rs.getString("activity").equals("Walking")) { out.println("selected"); } %> >Walking</option>
+                        				<option value="Running" <% if(rs.getString("activity").equals("Running")) { out.println("selected"); } %> >Running</option>
+                        				<option value="Still" <% if(rs.getString("activity").equals("Still")) { out.println("selected"); } %> >Still</option>
+                        				<% if(!Arrays.asList(activityArray).contains(rs.getString("activity"))) { out.println("<option selected value=\""+rs.getString("activity")+"\">"+rs.getString("activity")+"</option>"); } %> 
                         			</select>
                         		</td>
                         		<td>
-                        			<select name="<%= j %>-ringerManagerApp" class="form-control">
-                        				<option value="NORMAL" <% if(rs.getString("ringerManagerApp").equals("NORMAL")) { out.println("selected"); } %> >Normal</option>
-                        				<option value="SILENT" <% if(rs.getString("ringerManagerApp").equals("SILENT")) { out.println("selected"); } %> >Silent</option>
-                        				<option value="VIBRATE" <% if(rs.getString("ringerManagerApp").equals("VIBRATE")) { out.println("selected"); } %> >Vibrate</option>
+                        			<select name="<%= j %>-socialCircle" class="selectize-activity" <% if(j<5){ out.println("required"); } %> >
+                        				<option value="" <% if(rs.getString("socialCircle").equals("")) { out.println("selected"); } %> > </option>
+                        				<option value="Alone" <% if(rs.getString("socialCircle").equals("Alone")) { out.println("selected"); } %> >Alone</option>
+                        				<option value="Family" <% if(rs.getString("socialCircle").equals("Family")) { out.println("selected"); } %> >Family</option>
+                        				<option value="Friends" <% if(rs.getString("socialCircle").equals("Friends")) { out.println("selected"); } %> >Friends</option>
+                        				<option value="Colleagues" <% if(rs.getString("socialCircle").equals("Colleagues")) { out.println("selected"); } %> >Colleagues</option>
+                        				<option value="Strangers" <% if(rs.getString("socialCircle").equals("Strangers")) { out.println("selected"); } %> >Strangers</option>
+                        				<% if(!Arrays.asList(socialCircleArray).contains(rs.getString("socialCircle"))) { out.println("<option selected value=\""+rs.getString("socialCircle")+"\">"+rs.getString("socialCircle")+"</option>"); } %> 
+                        			</select>
+                        		</td>
+                        		<td>
+                        			<select name="<%= j %>-mood" class="selectize-activity" <% if(j<5){ out.println("required"); } %> >
+                        				<option value="" <% if(rs.getString("mood").equals("")) { out.println("selected"); } %> > </option>
+                        				<option value="Happy" <% if(rs.getString("mood").equals("Happy")) { out.println("selected"); } %> >Happy</option>
+                        				<option value="Sad" <% if(rs.getString("mood").equals("Sad")) { out.println("selected"); } %> >Sad</option>
+                        				<option value="Angry" <% if(rs.getString("mood").equals("Angry")) { out.println("selected"); } %> >Angry</option>
+                        				<option value="Stressed" <% if(rs.getString("mood").equals("Stressed")) { out.println("selected"); } %> >Stressed</option>
+                        				<option value="Neutral" <% if(rs.getString("mood").equals("Neutral")) { out.println("selected"); } %> >Neutral</option>
+                        				<option value="Relaxed" <% if(rs.getString("mood").equals("Relaxed")) { out.println("selected"); } %> >Relaxed</option>
+                        				<% if(!Arrays.asList(moodArray).contains(rs.getString("mood"))) { out.println("<option selected value=\""+rs.getString("mood")+"\">"+rs.getString("mood")+"</option>"); } %>
+                        			</select>
+                        		</td>
+                        		<td>
+                        			<select name="<%= j %>-musicPlayerApp" class="form-control" <% if(j<5){ out.println("required"); } %> >
+                        				<option value="" <% if(rs.getString("musicPlayerApp").equals("")) { out.println("selected"); } %> > </option>
+                        				<option value="None" <% if(rs.getString("musicPlayerApp").equals("None")) { out.println("selected"); } %> >None</option>
+                        				<option value="Jazz" <% if(rs.getString("musicPlayerApp").equals("Jazz")) { out.println("selected"); } %> >Jazz</option>
+                        				<option value="Pop" <% if(rs.getString("musicPlayerApp").equals("Pop")) { out.println("selected"); } %> >Pop</option>
+                        				<option value="Country" <% if(rs.getString("musicPlayerApp").equals("Country")) { out.println("selected"); } %> >Country</option>
+                        				<option value="Rock" <% if(rs.getString("musicPlayerApp").equals("Rock")) { out.println("selected"); } %> >Rock</option>
+                        			</select>
+                        		</td>
+                        		<td>
+                        			<select name="<%= j %>-ringerManagerApp" class="form-control" <% if(j<5){ out.println("required"); } %> >
+                        				<option value="" <% if(rs.getString("ringerManagerApp").equals("")) { out.println("selected"); } %> > </option>
+                        				<option value="Normal" <% if(rs.getString("ringerManagerApp").equals("Normal")) { out.println("selected"); } %> >Normal</option>
+                        				<option value="Silent" <% if(rs.getString("ringerManagerApp").equals("Silent")) { out.println("selected"); } %> >Silent</option>
+                        				<option value="Vibrate" <% if(rs.getString("ringerManagerApp").equals("Vibrate")) { out.println("selected"); } %> >Vibrate</option>
                         			</select>
                         		</td>
                        		</tr>
                         <% } %>
                       	<% for(;j<24;j++) { %>
                       	<tr>
-		                    	<td><input type="text" name="<%= j %>-beginTime" class="form-control" placeholder="15:15"/></td>
-		                    	<td><input type="text" name="<%= j %>-endTime" class="form-control" placeholder="15:15"/></td>
-                        		<td><input type="text" name="<%= j %>-location" class="form-control" placeholder="home, office, mall, etc."></td>
+		                    	<td><input type="text" name="<%= j %>-beginTime" class="form-control" placeholder="15:15" <% if(j<5){ out.println("required"); } %> /></td>
+		                    	<td><input type="text" name="<%= j %>-endTime" class="form-control" placeholder="15:15" <% if(j<5){ out.println("required"); } %> /></td>
                         		<td>
-                        			<select name="<%= j %>-activity" class="form-control">
-                        				<option value="IN_VEHICLE">In Vehicle</option>
-                        				<option value="ON_BICYCLE">On Bicycle</option>
-                        				<option value="ON_FOOT">Walking</option>
-                        				<option value="RUNNING">Running</option>
-                        				<option value="STILL">Still</option>
+                        			<select name="<%= j %>-location" class="selectize-activity" <% if(j<5){ out.println("required"); } %> >
+                        				<option value=""> </option>
+                        				<option value="Home">Home</option>
+                        				<option value="Road">Road</option>
+                        				<option value="Office">Office</option>
+                        				<option value="Mall">Mall</option>
+                        				<option value="Grocery Store">Grocery Store</option>
+                        				<option value="School">School</option>
+                        				<option value="University">University</option>
                         			</select>
                         		</td>
                         		<td>
-                        			<select name="<%= j %>-musicPlayerApp" class="form-control">
-                        				<option value="NONE">None</option>
-                        				<option value="JAZZ">Jazz</option>
-                        				<option value="POP">Pop</option>
-                        				<option value="COUNTRY">Country</option>
-                        				<option value="ROCK">Rock</option>
+                        			<select name="<%= j %>-activity" class="selectize-activity" <% if(j<5){ out.println("required"); } %> >
+                        				<option value="In Vehicle">In Vehicle</option>
+                        				<option value="On Bicycle">On Bicycle</option>
+                        				<option value="Walking">Walking</option>
+                        				<option value="Running">Running</option>
+                        				<option value="Still">Still</option>
                         			</select>
                         		</td>
                         		<td>
-                        			<select name="<%= j %>-ringerManagerApp" class="form-control">
-                        				<option value="NORMAL">Normal</option>
-                        				<option value="SILENT">Silent</option>
-                        				<option value=VIBRATE>Vibrate</option>
+                        			<select name="<%= j %>-socialCircle" class="selectize-activity" <% if(j<5){ out.println("required"); } %> >
+                        				<option value=""> </option>
+                        				<option value="Alone">Alone</option>
+                        				<option value="Family">Family</option>
+                        				<option value="Friends">Friends</option>
+                        				<option value="Colleagues">Colleagues</option>
+                        				<option value="Strangers">Strangers</option>
+                        			</select>
+                        		</td>
+                        		<td>
+                        			<select name="<%= j %>-mood" class="selectize-activity" <% if(j<5){ out.println("required"); } %> >
+                        				<option value=""> </option>
+                        				<option value="Happy">Happy</option>
+                        				<option value="Sad">Sad</option>
+                        				<option value="Angry">Angry</option>
+                        				<option value="Stressed">Stressed</option>
+                        				<option value="Neutral">Neutral</option>
+                        				<option value="Relaxed">Relaxed</option>
+                        			</select>
+                        		</td>
+                        		<td>
+                        			<select name="<%= j %>-musicPlayerApp" class="form-control" <% if(j<5){ out.println("required"); } %> >
+                        				<option value="None">None</option>
+                        				<option value="Jazz">Jazz</option>
+                        				<option value="Pop">Pop</option>
+                        				<option value="Country">Country</option>
+                        				<option value="Rock">Rock</option>
+                        			</select>
+                        		</td>
+                        		<td>
+                        			<select name="<%= j %>-ringerManagerApp" class="form-control" <% if(j<5){ out.println("required"); } %> >
+                        				<option value="Normal">Normal</option>
+                        				<option value="Silent">Silent</option>
+                        				<option value="Vibrate">Vibrate</option>
                         			</select>
                         		</td>
                        	</tr>
@@ -177,32 +256,67 @@
                         <% } %>
                       	<% for(int j=0;j<24;j++) { %>
                       	<tr>
-		                    	<td><input type="text" name="<%= j %>-beginTime" class="form-control" placeholder="15:15"/></td>
-		                    	<td><input type="text" name="<%= j %>-endTime" class="form-control" placeholder="15:15"/></td>
-                        		<td><input type="text" name="<%= j %>-location" class="form-control"  placeholder="home, office, mall, etc."></td>
+		                    	<td><input type="text" name="<%= j %>-beginTime" class="form-control" placeholder="15:15" <% if(j<5){ out.println("required"); } %> /></td>
+		                    	<td><input type="text" name="<%= j %>-endTime" class="form-control" placeholder="15:15" <% if(j<5){ out.println("required"); } %> /></td>
                         		<td>
-                        			<select name="<%= j %>-activity" class="form-control">
-                        				<option value="IN_VEHICLE">In Vehicle</option>
-                        				<option value="ON_BICYCLE">On Bicycle</option>
-                        				<option value="ON_FOOT">Walking</option>
-                        				<option value="RUNNING">Running</option>
-                        				<option value="STILL">Still</option>
+                        			<select name="<%= j %>-location" class="selectize-activity" <% if(j<5){ out.println("required"); } %> >
+                        				<option value=""> </option>
+                        				<option value="Home">Home</option>
+                        				<option value="Road">Road</option>
+                        				<option value="Office">Office</option>
+                        				<option value="Mall">Mall</option>
+                        				<option value="Grocery Store">Grocery Store</option>
+                        				<option value="School">School</option>
+                        				<option value="University">University</option>
                         			</select>
                         		</td>
                         		<td>
-                        			<select name="<%= j %>-musicPlayerApp" class="form-control">
-                        				<option value="NONE">None</option>
-                        				<option value="JAZZ">Jazz</option>
-                        				<option value="POP">Pop</option>
-                        				<option value="COUNTRY">Country</option>
-                        				<option value="ROCK">Rock</option>
+                        			<select name="<%= j %>-activity" class="selectize-activity" <% if(j<5){ out.println("required"); } %> >
+                        				<option value=""> </option>
+                        				<option value="In Vehicle">In Vehicle</option>
+                        				<option value="On Bicycle">On Bicycle</option>
+                        				<option value="Walking">Walking</option>
+                        				<option value="Running">Running</option>
+                        				<option value="Still">Still</option>
                         			</select>
                         		</td>
                         		<td>
-                        			<select name="<%= j %>-ringerManagerApp" class="form-control">
-                        				<option value="NORMAL">Normal</option>
-                        				<option value="SILENT">Silent</option>
-                        				<option value=VIBRATE>Vibrate</option>
+                        			<select name="<%= j %>-socialCircle" class="selectize-activity" <% if(j<5){ out.println("required"); } %> >
+                        				<option value=""> </option>
+                        				<option value="Alone">Alone</option>
+                        				<option value="Family">Family</option>
+                        				<option value="Friends">Friends</option>
+                        				<option value="Colleagues">Colleagues</option>
+                        				<option value="Strangers">Strangers</option>
+                        			</select>
+                        		</td>
+                        		<td>
+                        			<select name="<%= j %>-mood" class="selectize-activity" <% if(j<5){ out.println("required"); } %> >
+                        				<option value=""> </option>
+                        				<option value="Happy">Happy</option>
+                        				<option value="Sad">Sad</option>
+                        				<option value="Angry">Angry</option>
+                        				<option value="Stressed">Stressed</option>
+                        				<option value="Neutral">Neutral</option>
+                        				<option value="Relaxed">Relaxed</option>
+                        			</select>
+                        		</td>
+                        		<td>
+                        			<select name="<%= j %>-musicPlayerApp" class="form-control" <% if(j<5){ out.println("required"); } %> >
+                        				<option value=""> </option>
+                        				<option value="None">None</option>
+                        				<option value="Jazz">Jazz</option>
+                        				<option value="Pop">Pop</option>
+                        				<option value="Country">Country</option>
+                        				<option value="Rock">Rock</option>
+                        			</select>
+                        		</td>
+                        		<td>
+                        			<select name="<%= j %>-ringerManagerApp" class="form-control" <% if(j<5){ out.println("required"); } %> >
+                        				<option value=""> </option>
+                        				<option value="Normal">Normal</option>
+                        				<option value="Silent">Silent</option>
+                        				<option value="Vibrate">Vibrate</option>
                         			</select>
                         		</td>
                        	</tr>
@@ -231,28 +345,16 @@
 
         
 	<%@ include file="scripts.jsp" %>
-	<script src="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
-	</script>
-	<script type="text/javascript">
-	/*var timepicker = new TimePicker('time1', {
-		  lang: 'en',
-		  theme: 'dark'
+	<script type="text/javascript" src="./vendors/selectize/selectize.js"></script>
+	<script>
+		$(function() {
+		    $('.selectize-activity').selectize({
+			    create: true,
+			    createOnBlur: true,
+			    sortField: 'text'
+			});
 		});
-
-		var input = document.getElementById('time1');
-
-		timepicker.on('change', function(evt) {
-		  
-		  var value = (evt.hour || '00') + ':' + (evt.minute || '00');
-		  evt.element.value = value;
-
-		});*/
-			   $("#subm").click(function(){
-			       console.log($('#presurvey').serialize());
-			  }); 
 	</script>
   </body>
 </html>
-<%
-	dbProcess.disConnect();
-%>
+<% dbProcess.disConnect(); %>
